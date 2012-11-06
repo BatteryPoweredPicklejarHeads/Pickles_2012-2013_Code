@@ -35,6 +35,8 @@ task main()
       mult=(0.3); //Sets a value for a "slower speed" button, can be pushed to slow down movements of robot.
     }
     float r=sqrt(joystick.joy1_x1*joystick.joy1_x1+joystick.joy1_y1*joystick.joy1_y1);
+    if (r>128) r=128;
+    if (r<-128)r=-128;
     float r2=joystick.joy1_x2;
     // if(abs(joystick.joy1_x2) > 10)
     // {
@@ -44,12 +46,12 @@ task main()
     // motor[backRight] = frbl*mult+joystick.joy1_x2*mult;
     // }
     // else
-    if(r<10)
+    if(abs(r)<10)
     {
       r=0;
     }
 
-    if(joystick.joy1_x2<10){
+    if(abs(r2)<10){
       r2=0;
     }
 
@@ -66,22 +68,21 @@ task main()
     //are at a 45 degree angle.
     float flbr=100*r*cosDegrees(45-theta)/128;
     float frbl=100*r*sinDegrees(45-theta)/128;
-    if (!isDetecting(HTEOPD))
+    if (true)//!isDetecting(HTEOPD))
     {
       nxtDisplayTextLine(2, "%d", HTEOPDreadRaw(HTEOPD));
-
-      motor[frontLeft] = flbr*mult-r2*mult;
-      motor[frontRight] = flbr*mult-r2*mult;
+      motor[frontLeft] = -flbr*mult+r2*mult;
+      motor[frontRight] = -frbl*mult+r2*mult;
       motor[backLeft] = frbl*mult+r2*mult;
-      motor[backRight] = frbl*mult+r2*mult;
+      motor[backRight] = flbr*mult+r2*mult;
 
     }
     else
     {
-      motor[frontLeft] = -r2*mult;
+      motor[frontLeft] = r2*mult;
       motor[frontRight] = -r2*mult;
       motor[backLeft] = r2*mult;
-      motor[backRight] = r2*mult;
+      motor[backRight] = -r2*mult;
     }
 
     if (joy1Btn(6))
