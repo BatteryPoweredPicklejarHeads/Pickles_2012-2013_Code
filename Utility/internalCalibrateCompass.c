@@ -9,7 +9,7 @@
 
 
 
-#include "drivers/HTSMUX-driver.h"
+//#include "drivers/HTSMUX-driver.h"
 #include "drivers/HTMC-driver.h"
 
 #define IR msensor_S3_1
